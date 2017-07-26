@@ -1,5 +1,24 @@
 $(document).ready(function() {
+ 
+ 
+ var pixelArray = localStorage.getItem("pixelArray");
+if (!pixelArray) pixelArray= new Array(5400);
+else  {
+ pixelArray = JSON.parse(localStorage.getItem("pixelArray")); 
+  initDraw();
+}
+
   // all code goes in here
+
+function supports_html5_storage() {
+  try {
+    return 'localStorage' in window && window['localStorage'] !== null;
+  } catch (e) {
+    return false;
+  }
+}
+var supportsHtml5Storage=supports_html5_storage();
+
 var colors = 'white green red blue yellow';
 
 var color='white';
@@ -54,7 +73,7 @@ $('.box').on('dblclick', function() {
 
 */
 $('#reset').on('click', function() {
-  
+     pixelArray= new Array(5400);
     $('.box').removeClass(colors)
   })
 
@@ -86,6 +105,14 @@ $('#red').on('click', function() {
     color = 'white';
   })
 
+  $("#Save").on('click',function(){
+  localStorage.setItem("pixelArray",JSON.stringify(pixelArray));
+  console.log("Saving array");
+
+  });
+
+  
+
 // Algorithm for picture
   // each row is 100 items long
   //each column is 54 items long
@@ -114,6 +141,29 @@ context = canvas.getContext("2d");
 
 
 // * Main Function for Canvas Draw
+function initDraw(){
+  console.log("INIT Draw");
+
+ $("div div").each(function(pos){
+
+  var color = pixelArray[pos];
+  var colorClass="black";
+ 
+  if (color ==="#FFFFFF") colorClass="white";
+  if (color ==="#FFFF00") colorClass="yellow";
+  if (color ==="#FF0000") colorClass="red";
+  if (color ==="#008000") colorClass="green";
+  if (color ==="#0000FF") colorClass="blue";
+  if (!color) pixelArray[pos]="#000000";
+ 
+  $(this).removeClass(colors);
+  $(this).addClass(colorClass);
+
+ });
+ console.log("END Init Draw");
+
+
+}
 
 function redraw(){
   context.clearRect(0, 0, context.canvas.width, context.canvas.height); // Clears the canvas
@@ -127,7 +177,7 @@ function redraw(){
    
    var x = pos%100;
    var y  = Math.floor(pos/100);
-   context.moveTo(x,y);
+   
    var pixelColor="#000000";
    var classNames=$(this).attr("class");
    if (classNames.indexOf("white")!==-1) pixelColor="#FFFFFF";
@@ -136,9 +186,17 @@ function redraw(){
    if (classNames.indexOf("green")!==-1) pixelColor="#008000";
   if (classNames.indexOf("blue")!==-1) pixelColor="#0000FF";
 
-   context.fillStyle=pixelColor;
-   
-   context.fillRect(x,y,1,1);
+
+   if (pixelArray[pos] !== pixelColor){
+    context.fillStyle=pixelColor;
+    context.moveTo(x,y);
+    context.fillRect(x,y,1,1);
+    console.log("pixelArray at " + pos +" was " + pixelArray[pos]);
+    pixelArray[pos]=pixelColor;
+     console.log("pixelArray at " + pos +" NOW " + pixelArray[pos]);
+   }
+
+ 
    
 
  }); // end .each loop

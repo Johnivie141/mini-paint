@@ -49,7 +49,7 @@ div div {
   background: white;
   height: 2%;
   width: 1%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid black;
 }
 
@@ -58,28 +58,28 @@ div div {
   color: white;
   height: 2%;
   width: 1%;
-  padding: 10px;
+  padding: 5px;
 }
 
 .pallette-red {
   background: red;
   height: 2%;
   width: 1%;
-  padding: 10px
+  padding: 5px
 }
 
 .pallette-green {
   background: green;
   height: 2%;
   width: 1%;
-  padding: 10px;
+  padding: 5px;
 }
 
 .pallette-yellow {
   background: yellow;
   height: 2%;
   width: 1%;
-  padding: 10px;
+  padding: 5px;
 }
 
 .pallette-blue {
